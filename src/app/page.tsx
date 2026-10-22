@@ -1,69 +1,108 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
+import { EmptyState, PageSkeleton, ProductImage } from "@/components/ui";
+import { listCatalog, listCategories } from "@/lib/data/products";
+import { formatPrice } from "@/lib/format";
 
-export default function Home() {
+function param(value: string | string[] | undefined) {
+  return (Array.isArray(value) ? value[0] : value)?.trim().slice(0, 100) ?? "";
+}
+
+export default function CatalogPage(props: PageProps<"/">) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <Suspense fallback={<PageSkeleton />}>
+      <CatalogPageContent {...props} />
+    </Suspense>
+  );
+}
+
+async function CatalogPageContent({ searchParams }: PageProps<"/">) {
+  const params = await searchParams;
+  const search = param(params.q);
+  const category = param(params.categorie);
+  const [products, categories] = await Promise.all([
+    listCatalog({ search: search || undefined, category: category || undefined }),
+    listCategories(),
+  ]);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <section className="hero bg-base-100 rounded-box border-base-300 border">
+        <div className="hero-content py-10 text-center">
+          <div className="max-w-xl">
+            <h1 className="text-3xl font-bold sm:text-4xl">Des créations uniques, livrées chez vous</h1>
+            <p className="text-base-content/70 py-4">
+              Parcourez les produits de nos vendeurs indépendants et commandez en quelques clics.
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      <form role="search" method="get" className="flex flex-col gap-2 sm:flex-row" aria-label="Rechercher dans le catalogue">
+        <label className="input w-full sm:flex-1">
+          <span className="sr-only">Rechercher un produit</span>
+          <input type="search" name="q" defaultValue={search} placeholder="Rechercher un produit…" maxLength={100} />
+        </label>
+        <label className="sr-only" htmlFor="categorie">
+          Catégorie
+        </label>
+        <select id="categorie" name="categorie" defaultValue={category} className="select w-full sm:w-56">
+          <option value="">Toutes les catégories</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        <button type="submit" className="btn btn-primary">
+          Rechercher
+        </button>
+      </form>
+
+      <h2 className="sr-only">Produits</h2>
+      <p className="text-base-content/70 text-sm" aria-live="polite">
+        {products.length} produit(s){search && ` pour « ${search} »`}
+        {category && ` dans « ${category} »`}
+        {(search || category) && (
+          <>
+            {" — "}
+            <Link href="/" className="link">
+              réinitialiser
+            </Link>
+          </>
+        )}
+      </p>
+
+      {products.length === 0 ? (
+        <EmptyState title="Aucun produit ne correspond à votre recherche." />
+      ) : (
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {products.map((product) => (
+            <li key={product.id} className="card bg-base-100 border-base-300 relative border shadow-sm transition hover:shadow-md">
+              <figure>
+                <ProductImage name={product.name} url={product.image_url} className="h-44 w-full" />
+              </figure>
+              <div className="card-body gap-2 p-4">
+                <p className="text-base-content/60 text-xs tracking-wide uppercase">{product.category}</p>
+                <h3 className="card-title text-base">
+                  <Link href={`/produits/${product.id}`} className="after:absolute after:inset-0">
+                    {product.name}
+                  </Link>
+                </h3>
+                <p className="text-base-content/60 text-sm">par {product.seller_name}</p>
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="text-lg font-semibold">{formatPrice(product.price_cents)}</span>
+                  {product.stock > 0 ? (
+                    <span className="badge badge-success badge-soft">En stock</span>
+                  ) : (
+                    <span className="badge badge-ghost">Rupture</span>
+                  )}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
