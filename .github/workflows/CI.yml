@@ -36,6 +36,8 @@ jobs:
       db:
         image: postgres:17-alpine
         env:
+          DATABASE_URL: postgres://ecommerce:ecommerce@localhost:5432/ecommerce
+          SESSION_SECRET: a7Kp2mQ9xR4vN8cL3zT6bY1wD5hJ0sF2
           POSTGRES_USER: ecommerce
           POSTGRES_PASSWORD: ecommerce
           POSTGRES_DB: ecommerce
