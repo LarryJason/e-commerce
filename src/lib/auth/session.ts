@@ -41,7 +41,9 @@ export async function createSession(userId: number) {
 
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // WebKit (Playwright sous Linux) refuse les cookies Secure sur http://localhost :
+    // SESSION_COOKIE_INSECURE=1 permet de tester un build de production en HTTP.
+    secure: process.env.NODE_ENV === "production" && process.env.SESSION_COOKIE_INSECURE !== "1",
     sameSite: "lax",
     path: "/",
     expires: expiresAt,
