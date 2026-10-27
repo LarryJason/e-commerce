@@ -66,8 +66,8 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  docker:
-    name: Construire et publier l'image
+    docker:
+    name: Construire et publier les images
     needs: [quality, e2e]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -82,19 +82,43 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - id: meta
+
+      - id: meta-app
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=sha
             type=raw,value=latest
-      - uses: docker/build-push-action@v6
+
+      - id: meta-migrate
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-migrate
+          tags: |
+            type=sha
+            type=raw,value=latest
+
+      - name: Image de l'application
+        uses: docker/build-push-action@v6
         with:
           context: .
           target: runner
+          platforms: linux/amd64
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-app.outputs.labels }}
+          cache-from: type=gha,scope=app
+          cache-to: type=gha,mode=max,scope=app
+
+      - name: Image de migration
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrator
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta-migrate.outputs.tags }}
+          labels: ${{ steps.meta-migrate.outputs.labels }}
+          cache-from: type=gha,scope=migrate
+          cache-to: type=gha,mode=max,scope=migrate

@@ -4,6 +4,13 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# ---------- Étape migrations : outillage pour la base ----------
+FROM node:22-slim AS migrator
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+CMD ["npm", "run", "db:migrate"]
+
 # ---------- Étape 2 : compiler l'application ----------
 FROM node:22-slim AS builder
 WORKDIR /app
