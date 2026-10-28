@@ -122,9 +122,9 @@ jobs:
           labels: ${{ steps.meta-migrate.outputs.labels }}
           cache-from: type=gha,scope=migrate
           cache-to: type=gha,mode=max,scope=migrate
-          
-    deploy:
-        name: Déployer en production
+
+  deploy:
+      - name: Déployer en production
         needs: docker
         runs-on: ubuntu-latest
         concurrency:
