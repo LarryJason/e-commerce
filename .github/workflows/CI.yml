@@ -124,37 +124,37 @@ jobs:
           cache-to: type=gha,mode=max,scope=migrate
 
   deploy:
-      - name: Déployer en production
-        needs: docker
-        runs-on: ubuntu-latest
-        concurrency:
-          group: production
-          cancel-in-progress: false
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-        steps:
-          - uses: actions/checkout@v5
+    name: Déployer en production
+    needs: docker
+    runs-on: ubuntu-latest
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+    steps:
+      - uses: actions/checkout@v5
 
-          - name: Configurer SSH
-            run: |
-              mkdir -p ~/.ssh
-              echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-              chmod 600 ~/.ssh/deploy_key
-              echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Configurer SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
-          - name: Copier la configuration de production
-            run: |
-              scp -i ~/.ssh/deploy_key \
-                deploy/compose.yaml deploy/Caddyfile deploy/deploy.sh \
-                "$SSH_USER@$SSH_HOST:~/ecommerce/"
+      - name: Copier la configuration de production
+        run: |
+          scp -i ~/.ssh/deploy_key \
+            deploy/compose.yaml deploy/Caddyfile deploy/deploy.sh \
+            "$SSH_USER@$SSH_HOST:~/ecommerce/"
 
-          - name: Déployer la nouvelle version
-            run: |
-              ssh -i ~/.ssh/deploy_key "$SSH_USER@$SSH_HOST" \
-                "~/ecommerce/deploy.sh sha-${GITHUB_SHA::7}"
+      - name: Déployer la nouvelle version
+        run: |
+          ssh -i ~/.ssh/deploy_key "$SSH_USER@$SSH_HOST" \
+            "~/ecommerce/deploy.sh sha-${GITHUB_SHA::7}"
 
-          - name: Vérifier que le site répond
-            run: |
-              curl -fsS --retry 10 --retry-delay 5 --retry-all-errors \
-                -o /dev/null "https://$SSH_HOST/"
+      - name: Vérifier que le site répond
+        run: |
+          curl -fsS --retry 10 --retry-delay 5 --retry-all-errors \
+            -o /dev/null "https://$SSH_HOST/"
