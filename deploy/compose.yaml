@@ -21,7 +21,7 @@ services:
         condition: service_healthy
 
   app:
-    image: ghcr.io/<pseudo>/e-commerce:${IMAGE_TAG:-latest}
+    image: ghcr.io/larryjason/e-commerce:${IMAGE_TAG:-latest}
     env_file: .env.prod
     depends_on:
       migrate:
