@@ -50,7 +50,7 @@ async function AdminOrdersPageContent() {
                   </th>
                   <td>
                     {o.customer_name}
-                    <div className="text-base-content/60 text-xs">{o.customer_email}</div>
+                    <div className="text-muted text-xs">{o.customer_email}</div>
                   </td>
                   <td className="whitespace-nowrap">{formatDate(o.created_at)}</td>
                   <td>{formatPrice(o.total_cents)}</td>

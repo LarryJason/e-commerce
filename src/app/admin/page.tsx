@@ -55,7 +55,7 @@ async function AdminDashboardPageContent() {
           <Link key={s.href} href={s.href} className="card bg-base-100 border-base-300 border transition hover:shadow-md">
             <div className="card-body">
               <h2 className="card-title">{s.title}</h2>
-              <p className="text-base-content/70 text-sm">{s.text}</p>
+              <p className="text-muted text-sm">{s.text}</p>
             </div>
           </Link>
         ))}

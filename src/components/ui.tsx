@@ -4,7 +4,7 @@ import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/roles";
 const STATUS_CLASSES: Record<OrderStatus, string> = {
   en_attente: "badge-warning",
   confirmee: "badge-info",
-  expediee: "badge-primary",
+  expediee: "badge-info",
   livree: "badge-success",
   annulee: "badge-neutral",
 };
@@ -22,7 +22,7 @@ export function ProductImage({ name, url, className = "" }: { name: string; url:
   }
   return (
     <div
-      className={`bg-gradient-to-br from-primary/20 to-secondary/30 flex items-center justify-center ${className}`}
+      className={`bg-secondary flex items-center justify-center ${className}`}
       role="img"
       aria-label={name}
     >

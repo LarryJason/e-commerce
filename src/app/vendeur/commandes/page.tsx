@@ -27,7 +27,7 @@ async function SellerOrdersPageContent() {
           ← Mes produits
         </Link>
       </PageHeader>
-      <p className="text-base-content/70 mb-4 text-sm">
+      <p className="text-muted mb-4 text-sm">
         Seuls vos articles sont affichés pour chaque commande.
       </p>
 
@@ -42,7 +42,7 @@ async function SellerOrdersPageContent() {
                   <h2 className="card-title text-lg">Commande n° {order.id}</h2>
                   <OrderStatusBadge status={order.status} />
                 </div>
-                <p className="text-base-content/70 text-sm">
+                <p className="text-muted text-sm">
                   {formatDate(order.created_at)} · Livraison à {order.shipping_name}, {order.shipping_postal_code}{" "}
                   {order.shipping_city}
                 </p>

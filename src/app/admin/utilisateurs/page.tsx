@@ -46,7 +46,7 @@ async function AdminUsersPageContent() {
                     <div className="font-semibold">
                       {u.name} {isSelf && <span className="badge badge-sm badge-outline">vous</span>}
                     </div>
-                    <div className="text-base-content/60 text-xs font-normal">{u.email}</div>
+                    <div className="text-muted text-xs font-normal">{u.email}</div>
                   </th>
                   <td className="whitespace-nowrap">{formatDate(u.created_at)}</td>
                   <td className="text-sm">

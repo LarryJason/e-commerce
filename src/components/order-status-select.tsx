@@ -6,7 +6,7 @@ import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/roles";
 /** Sélecteur de statut pour l'administrateur (seules les transitions valides sont proposées). */
 export function OrderStatusSelect({ orderId, status }: { orderId: number; status: OrderStatus }) {
   const next = allowedNextStatuses(status);
-  if (next.length === 0) return <span className="text-base-content/60 text-sm">Statut définitif</span>;
+  if (next.length === 0) return <span className="text-muted text-sm">Statut définitif</span>;
   return (
     <ActionForm
       key={status}

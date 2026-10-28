@@ -25,7 +25,7 @@ export function CheckoutForm({ defaultName, totalLabel }: { defaultName: string;
       <div role="note" className="alert alert-info alert-soft mt-2 text-sm">
         Paiement à la livraison : aucune donnée bancaire n&apos;est demandée.
       </div>
-      <SubmitButton className="btn btn-primary mt-2">Confirmer la commande ({totalLabel})</SubmitButton>
+      <SubmitButton className="btn btn-accent mt-2">Confirmer la commande ({totalLabel})</SubmitButton>
     </form>
   );
 }

@@ -63,7 +63,7 @@ async function SellerProductsPageContent({ searchParams }: PageProps<"/vendeur">
                 <tr key={p.id}>
                   <th scope="row">
                     <div className="font-semibold">{p.name}</div>
-                    <div className="text-base-content/60 text-xs font-normal">{p.category}</div>
+                    <div className="text-muted text-xs font-normal">{p.category}</div>
                   </th>
                   <td>{formatPrice(p.price_cents)}</td>
                   <td>

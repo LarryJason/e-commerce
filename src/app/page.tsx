@@ -27,11 +27,11 @@ async function CatalogPageContent({ searchParams }: PageProps<"/">) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="hero bg-base-100 rounded-box border-base-300 border">
+      <section className="hero bg-primary text-primary-content rounded-box">
         <div className="hero-content py-10 text-center">
           <div className="max-w-xl">
             <h1 className="text-3xl font-bold sm:text-4xl">Des créations uniques, livrées chez vous</h1>
-            <p className="text-base-content/70 py-4">
+            <p className="text-primary-content/80 py-4">
               Parcourez les produits de nos vendeurs indépendants et commandez en quelques clics.
             </p>
           </div>
@@ -60,7 +60,7 @@ async function CatalogPageContent({ searchParams }: PageProps<"/">) {
       </form>
 
       <h2 className="sr-only">Produits</h2>
-      <p className="text-base-content/70 text-sm" aria-live="polite">
+      <p className="text-muted text-sm" aria-live="polite">
         {products.length} produit(s){search && ` pour « ${search} »`}
         {category && ` dans « ${category} »`}
         {(search || category) && (
@@ -83,13 +83,13 @@ async function CatalogPageContent({ searchParams }: PageProps<"/">) {
                 <ProductImage name={product.name} url={product.image_url} className="h-44 w-full" />
               </figure>
               <div className="card-body gap-2 p-4">
-                <p className="text-base-content/60 text-xs tracking-wide uppercase">{product.category}</p>
+                <p className="text-muted text-xs tracking-wide uppercase">{product.category}</p>
                 <h3 className="card-title text-base">
                   <Link href={`/produits/${product.id}`} className="after:absolute after:inset-0">
                     {product.name}
                   </Link>
                 </h3>
-                <p className="text-base-content/60 text-sm">par {product.seller_name}</p>
+                <p className="text-muted text-sm">par {product.seller_name}</p>
                 <div className="mt-auto flex items-center justify-between">
                   <span className="text-lg font-semibold">{formatPrice(product.price_cents)}</span>
                   {product.stock > 0 ? (

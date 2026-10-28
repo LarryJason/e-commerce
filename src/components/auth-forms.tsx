@@ -46,14 +46,14 @@ export function RegisterForm() {
             <input type="radio" name="accountType" value="client" defaultChecked={accountType === "client"} className="radio radio-primary" />
             <span>
               <span className="block font-semibold">Client</span>
-              <span className="text-base-content/70 text-sm">J&apos;achète des produits</span>
+              <span className="text-muted text-sm">J&apos;achète des produits</span>
             </span>
           </label>
           <label className="border-base-300 rounded-box has-checked:border-primary flex cursor-pointer gap-3 border p-3">
             <input type="radio" name="accountType" value="vendeur" defaultChecked={accountType === "vendeur"} className="radio radio-primary" />
             <span>
               <span className="block font-semibold">Vendeur</span>
-              <span className="text-base-content/70 text-sm">Je vends mes produits</span>
+              <span className="text-muted text-sm">Je vends mes produits</span>
             </span>
           </label>
         </div>

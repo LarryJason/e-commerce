@@ -7,7 +7,7 @@ import { ROLE_LABELS } from "@/lib/roles";
 
 export function Navbar() {
   return (
-    <header className="bg-base-100 border-base-300 sticky top-0 z-30 border-b">
+    <header className="on-primary bg-primary text-primary-content sticky top-0 z-30">
       <nav className="navbar mx-auto max-w-6xl gap-2 px-4" aria-label="Navigation principale">
         <div className="flex-1">
           <Link href="/" className="text-xl font-bold tracking-tight">
@@ -15,7 +15,7 @@ export function Navbar() {
           </Link>
         </div>
         {/* La lecture de la session dépend de la requête : elle est diffusée à part. */}
-        <Suspense fallback={<div className="skeleton h-8 w-40" aria-hidden="true" />}>
+        <Suspense fallback={<div className="skeleton bg-primary-content/20 h-8 w-40" aria-hidden="true" />}>
           <UserNav />
         </Suspense>
       </nav>
@@ -32,7 +32,7 @@ async function UserNav() {
         <Link href="/connexion" className="btn btn-ghost btn-sm">
           Connexion
         </Link>
-        <Link href="/inscription" className="btn btn-primary btn-sm">
+        <Link href="/inscription" className="btn btn-secondary btn-sm">
           Créer un compte
         </Link>
       </div>
@@ -67,7 +67,7 @@ async function UserNav() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
           </svg>
           <span className="hidden sm:inline">Panier</span>
-          <span className="badge badge-primary badge-sm">{cartCount}</span>
+          <span className="badge badge-secondary badge-sm">{cartCount}</span>
         </Link>
       )}
       <div className="dropdown dropdown-end">
@@ -75,7 +75,7 @@ async function UserNav() {
           <span className="max-w-32 truncate">{user.name}</span>
           <span className="badge badge-outline badge-sm hidden sm:inline-flex">{ROLE_LABELS[user.role]}</span>
         </div>
-        <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box border-base-300 z-40 mt-2 w-56 border p-2 shadow">
+        <ul tabIndex={0} className="dropdown-content menu bg-base-100 text-base-content rounded-box border-base-300 z-40 mt-2 w-56 border p-2 shadow">
           {links.map((link) => (
             <li key={link.href}>
               <Link href={link.href}>{link.label}</Link>

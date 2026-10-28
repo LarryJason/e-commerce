@@ -53,7 +53,7 @@ async function AdminProductsPageContent() {
                     ) : (
                       <span className="font-semibold">{p.name}</span>
                     )}
-                    <div className="text-base-content/60 text-xs font-normal">{p.category}</div>
+                    <div className="text-muted text-xs font-normal">{p.category}</div>
                   </th>
                   <td>{p.seller_name}</td>
                   <td>{formatPrice(p.price_cents)}</td>

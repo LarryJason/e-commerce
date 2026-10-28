@@ -65,7 +65,7 @@ async function CartPageContent() {
                           item.name
                         )}
                       </h2>
-                      <p className="text-base-content/60 text-sm">
+                      <p className="text-muted text-sm">
                         {formatPrice(item.price_cents)} · {item.seller_name}
                       </p>
                     </div>
@@ -137,7 +137,7 @@ async function CartPageContent() {
               <span>{formatPrice(summary.totalCents)}</span>
             </p>
             {summary.canCheckout ? (
-              <Link href="/commande" className="btn btn-primary mt-2">
+              <Link href="/commande" className="btn btn-accent mt-2">
                 Passer la commande
               </Link>
             ) : (

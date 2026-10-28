@@ -1,9 +1,58 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: emerald --default;
+  themes: false;
+}
+
+/*
+ * Identité visuelle « La Boutique ».
+ * Le jaune (accent) est réservé aux actions d'achat et porte toujours un texte foncé.
+ */
+@plugin "daisyui/theme" {
+  name: "boutique";
+  default: true;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f6f8f7;
+  --color-base-300: #d6e2dc;
+  --color-base-content: #10231c;
+
+  --color-primary: #0f3d2e;
+  --color-primary-content: #ffffff;
+  --color-secondary: #e7f0eb;
+  --color-secondary-content: #0f3d2e;
+  --color-accent: #f2b705;
+  --color-accent-content: #10231c;
+  --color-neutral: #10231c;
+  --color-neutral-content: #ffffff;
+
+  --color-success: #1f6b45;
+  --color-success-content: #ffffff;
+  --color-info: #1d5c8c;
+  --color-info-content: #ffffff;
+  /* Ambre distinct du jaune d'action, pour ne pas le banaliser. */
+  --color-warning: #b45309;
+  --color-warning-content: #ffffff;
+  --color-error: #b42318;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-muted: #4a5a53;
+}
+
+/* Sur fond vert profond, les boutons discrets passent en blanc au repos. */
+.on-primary .btn-ghost {
+  --btn-rest-fg: var(--color-primary-content);
 }

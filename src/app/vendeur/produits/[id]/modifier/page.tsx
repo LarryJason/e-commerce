@@ -31,7 +31,7 @@ async function EditProductPageContent({ params }: PageProps<"/vendeur/produits/[
   return (
     <div className="mx-auto max-w-2xl">
       <PageHeader title={`Modifier « ${product.name} »`} />
-      {user.role === "admin" && <p className="text-base-content/70 mb-4 text-sm">Vendeur : {product.seller_name}</p>}
+      {user.role === "admin" && <p className="text-muted mb-4 text-sm">Vendeur : {product.seller_name}</p>}
       <div className="card bg-base-100 border-base-300 border">
         <div className="card-body">
           <ProductForm

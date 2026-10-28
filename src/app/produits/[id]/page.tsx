@@ -45,7 +45,7 @@ async function ProductPageContent({ params }: PageProps<"/produits/[id]">) {
         <div className="flex flex-col gap-4">
           <div>
             <h1 className="text-3xl font-bold">{product.name}</h1>
-            <p className="text-base-content/70 mt-1">Vendu par {product.seller_name}</p>
+            <p className="text-muted mt-1">Vendu par {product.seller_name}</p>
           </div>
           <p className="text-3xl font-semibold">{formatPrice(product.price_cents)}</p>
           <p>
@@ -71,15 +71,15 @@ async function ProductPageContent({ params }: PageProps<"/produits/[id]">) {
                   pour commander ce produit.
                 </p>
               ) : user.role !== "client" ? (
-                <p className="text-base-content/70">Seuls les comptes clients peuvent passer commande.</p>
+                <p className="text-muted">Seuls les comptes clients peuvent passer commande.</p>
               ) : !inStock ? (
-                <p className="text-base-content/70">Ce produit n&apos;est pas disponible pour le moment.</p>
+                <p className="text-muted">Ce produit n&apos;est pas disponible pour le moment.</p>
               ) : (
                 <ActionForm
                   action={addToCartAction}
                   fields={{ productId: product.id }}
                   submitLabel="Ajouter au panier"
-                  submitClassName="btn btn-primary"
+                  submitClassName="btn btn-accent"
                   className="flex flex-wrap items-end gap-3"
                 >
                   <fieldset className="fieldset">
