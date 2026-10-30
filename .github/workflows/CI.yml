@@ -157,4 +157,4 @@ jobs:
       - name: Vérifier que le site répond
         run: |
           curl -fsS --retry 10 --retry-delay 5 --retry-all-errors \
-            -o /dev/null "https://$SSH_HOST/"
+            "https://$SSH_HOST/api/health"
