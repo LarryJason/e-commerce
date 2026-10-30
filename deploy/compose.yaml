@@ -1,9 +1,16 @@
 name: ecommerce
 
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   db:
     image: postgres:17-alpine
     env_file: .env.prod
+    logging: *default-logging
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -15,6 +22,7 @@ services:
 
   migrate:
     image: ghcr.io/larryjason/e-commerce-migrate:${IMAGE_TAG:-latest}
+    logging: *default-logging
     env_file: .env.prod
     depends_on:
       db:
@@ -26,6 +34,7 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
+    logging: *default-logging
     restart: unless-stopped
 
   caddy:
@@ -39,6 +48,7 @@ services:
       - caddy_config:/config
     depends_on:
       - app
+    logging: *default-logging
     restart: unless-stopped
 
 volumes:
