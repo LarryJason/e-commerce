@@ -1,5 +1,6 @@
 import { connection, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { logger } from "@/lib/logger";
 
 const DB_TIMEOUT_MS = 3000;
 
@@ -22,7 +23,7 @@ export async function GET() {
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
-    console.error("[health] base de données injoignable :", error);
+    logger.error("[health] base de données injoignable :", { error });
     return NextResponse.json(
       { status: "error", db: "unreachable" },
       { status: 503, headers: { "Cache-Control": "no-store" } },
