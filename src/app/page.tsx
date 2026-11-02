@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense } from "react";
 import { EmptyState, PageSkeleton, ProductImage } from "@/components/ui";
 import { listCatalog, listCategories } from "@/lib/data/products";
@@ -27,15 +28,17 @@ async function CatalogPageContent({ searchParams }: PageProps<"/">) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="hero bg-primary text-primary-content rounded-box">
-        <div className="hero-content py-10 text-center">
-          <div className="max-w-xl">
-            <h1 className="text-3xl font-bold sm:text-4xl">Des créations uniques, livrées chez vous</h1>
-            <p className="text-primary-content/80 py-4">
-              Parcourez les produits de nos vendeurs indépendants et commandez en quelques clics.
-            </p>
-          </div>
-        </div>
+      <section className="rounded-box overflow-hidden">
+        <h1 className="sr-only">La Boutique — Périphériques & Matériel Tech</h1>
+        <Image
+          src="/assets/ban.jpeg"
+          alt="La Boutique — Périphériques & Matériel Tech : votre setup high-tech au meilleur prix"
+          width={2140}
+          height={706}
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          preload
+          className="h-36 w-full object-cover sm:h-48 lg:h-56"
+        />
       </section>
 
       <form role="search" method="get" className="flex flex-col gap-2 sm:flex-row" aria-label="Rechercher dans le catalogue">
